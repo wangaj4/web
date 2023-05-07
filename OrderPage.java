@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.Calendar;
 
 
-// This annotation maps this Java Servlet Class to a URL
 @WebServlet("/Order")
 public class OrderPage extends HttpServlet {
     private static final long serialVersionUID = 1L;

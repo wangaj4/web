@@ -17,9 +17,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
+    
     public DataSource dataSource;
 
 
@@ -42,12 +40,9 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        /* This example only allows username/password to be test/test
-        /  in the real project, you should talk to the database to verify username/password
-        */
-        response.setContentType("text/html");    // Response mime type
+        
+        response.setContentType("text/html");   
 
-        // Output stream to STDOUT
         PrintWriter out = response.getWriter();
         JsonObject responseJsonObject = new JsonObject();
 
@@ -57,25 +52,19 @@ public class LoginServlet extends HttpServlet {
 
         try{
 
-
-            // Create a new connection to database
+            //Create connection
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            // create database connection
             Connection dbCon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
 
-            // Declare a new statement
-            // Generate a SQL query
-            //String query = String.format("SELECT * from customers where email = '%s'", username);
+            //Prepare query
             String query = "SELECT * from customers where email = ?";
             PreparedStatement statement = dbCon.prepareStatement(query);
             statement.setString(1,username);
 
-            // Log to localhost log
             request.getServletContext().log("query：" + query);
 
 
 
-            // Perform the query
             ResultSet usernames = statement.executeQuery();
 
             Boolean existinguser = false;
@@ -83,13 +72,17 @@ public class LoginServlet extends HttpServlet {
 
             String correspondingPassword = "";
             Boolean success = false;
+            
+            
             while (usernames.next()){
+                //Check if username and password exist as a pair
                 existinguser = true;
                 correspondingPassword = usernames.getString("password");
                 success = new StrongPasswordEncryptor().checkPassword(password, correspondingPassword);
 
             }
             if (gRecaptchaResponse == null || gRecaptchaResponse.isEmpty()) {
+                //If recaptcha was not used, login fail
                 responseJsonObject.addProperty("status", "fail");
                 responseJsonObject.addProperty("message", "Input Captcha");
             }
@@ -109,7 +102,7 @@ public class LoginServlet extends HttpServlet {
                 responseJsonObject.addProperty("status", "fail");
                 // Log to localhost log
                 request.getServletContext().log("Login failed");
-                // sample error messages. in practice, it is not a good idea to tell user which one is incorrect/not exist.
+                // error messages
                 if (!existinguser) {
                     responseJsonObject.addProperty("message", "user " + username + " doesn't exist");
                 } else {

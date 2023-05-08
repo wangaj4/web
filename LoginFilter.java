@@ -5,16 +5,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Servlet Filter implementation class LoginFilter
- */
+
 @WebFilter(filterName = "LoginFilter", urlPatterns = "*")
 public class LoginFilter implements Filter {
     private final ArrayList<String> allowedURIs = new ArrayList<>();
 
-    /**
-     * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
-     */
+    
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -24,7 +20,6 @@ public class LoginFilter implements Filter {
 
         // Check if this URL is allowed to access without logging in
         if (this.isUrlAllowedWithoutLogin(httpRequest.getRequestURI())) {
-            // Keep default action: pass along the filter chain
             chain.doFilter(request, response);
             return;
         }
@@ -50,7 +45,6 @@ public class LoginFilter implements Filter {
     }
 
     public void destroy() {
-        // ignored.
     }
 
 }

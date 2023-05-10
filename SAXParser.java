@@ -1,3 +1,5 @@
+//SAX XML Parser to add new movie entries to a mysql database
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

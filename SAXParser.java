@@ -52,7 +52,6 @@ public class SAXParserExample extends DefaultHandler {
         }catch  (Exception e){
             System.out.println("error in run " + e);
         }
-        printData();
     }
 
     private void parseDocument() {
@@ -76,19 +75,6 @@ public class SAXParserExample extends DefaultHandler {
         }
     }
 
-    /**
-     * Iterate through the list and print
-     * the contents
-     */
-    private void printData() {
-
-        System.out.println("No of Films '" + Films.size() + "'.");
-
-        Iterator<Film> it = Films.iterator();
-        while (it.hasNext()) {
-            System.out.println(it.next().toString());
-        }
-    }
 
     //Event Handlers
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {

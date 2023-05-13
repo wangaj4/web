@@ -81,7 +81,6 @@ public class SAXParserActors extends DefaultHandler {
         }catch  (Exception e){
             System.out.println("error in run " + e);
         }
-        printData();
     }
 
     private void parseDocument() {
@@ -105,14 +104,6 @@ public class SAXParserActors extends DefaultHandler {
         }
     }
 
-    /**
-     * Iterate through the list and print
-     * the contents
-     */
-    private void printData() {
-            System.out.println(count);
-
-    }
 
     //Event Handlers
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {

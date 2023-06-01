@@ -46,15 +46,12 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         JsonObject responseJsonObject = new JsonObject();
 
-        String loginUser = "mytestuser";
-        String loginPasswd = "My6$Password";
-        String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
 
         try{
 
             //Create connection
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection dbCon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            Connection dbCon = dataSource.getConnection();
 
             //Prepare query
             String query = "SELECT * from customers where email = ?";
